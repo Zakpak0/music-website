@@ -1,48 +1,49 @@
 import { useState } from "react"
 import Playlist from "./components/Playlist"
-
+import { db } from "../../../firebase"
+import firebase from "firebase"
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
 const CreatePlaylist = (): JSX.Element => {
+    const [playList, useplayList] = useState(false)
+    const [listName, setListName] = useState({
+        playlist: ""
+    })
     const [input, setInput] = useState({
-        playlist: "",
         songname: "",
         artist: "",
         album: "",
         youtube: ""
     })
     const handleChange = (e) => {
+        e.preventDefault()
         const value =  e.target.value
+        setListName({
+            ...listName,
+            [e.target.name]: value
+        })
         setInput({
             ...input,
             [e.target.name]: value
         })
     }
-
-    const songList = [
-        {
-        songname: "So Alone",
-        artist: "Zak",
-        album: "Norm"
-    },
-            {
-        songname: "So Alone",
-        artist: "Zak",
-        album: "Norm"
-    },
-            {
-        songname: "So Alone",
-        artist: "Zak",
-        album: "Norm"
-    },
-            {
-        songname: "So Alone",
-        artist: "Zak",
-        album: "Norm"
-    }
-]
+const id = Math.floor(Math.random() * 10000) + 1;
+    const [currentplaylist] = useCollection(
+        db.collection(`${id}`)
+    )
+const saveplaylist = () => {
+    if (playList === false)  
+    db.collection(`${id}`).doc(`${id}`)
+    useplayList(true)
+}
+const renameplaylist = () => {
+    if (playList === true)
+    db.collection(`${id}`).doc(`${id}`).set()
+}
 const add = () => {
 console.log(input)
+event.preventDefault()
+db.collection(`${id}`).add(input)
 setInput({
-        playlist: "",
         songname: "",
         artist: "",
         album: "",
@@ -56,7 +57,17 @@ setInput({
             <div className="flex justify-center py-8">
                 <div className="flex flex-col justify-center text-center">
                     <h1>Create Playlist</h1>
-                    <input name="playlist" value={input.playlist} onChange={handleChange} className="text-center my-5 py-2 border" placeholder="Playlist Name" />
+                        <div>
+                            {playList === false ? 
+                            (<div className="flex flex-row">
+                            <input name="playlist" value={listName.playlist} onChange={handleChange} className="text-center my-5 py-2 border" placeholder="Playlist Name" />
+                            <button className="ml-5 border h-5 w-10 pb-7 text-center mt-7" onClick={() => useplayList(true)}>Save</button>
+                            </div>) : 
+                            (<div className="flex flex-row">
+                                <h1 className="text-center ml-2 my-5 px-6 py-2">{listName.playlist}</h1>
+                                <button className="ml-8 border pb-7 w-6 h-5 mt-7" onClick={() => useplayList(false)}>X</button>
+                            </div>)}
+                        </div>
                 </div>
             </div>
         </div>
@@ -104,9 +115,9 @@ setInput({
                     </div>
         </div>
             <div className="flex flex-col my-5 justify-center pr-5">
-                {input.playlist != "" ? <div className="flex justify-center py-5 border">
-                    <h1>{input.playlist}</h1>
-                </div> : null }
+                {/* {listName.playlist != "" ? <div className="flex justify-center py-5 border">
+                    <h1>{listName.playlist}</h1>
+                </div> : null } */}
         <div className="flex border px-16 flex-grow min-w-max">
             <div className="flex flex-grow justify-between min-w-max flex-row">
                 <div className="flex flex-grow">
@@ -127,13 +138,19 @@ setInput({
             </div>
         </div>
         <div className="my-5 mx-5">
-            {songList.map((songlist) => {
+            {currentplaylist? (currentplaylist?.docs.map((songlist) => {
                 return ( 
                 <div className="py-3">
-                <Playlist {...songlist} key={songlist.songname}/>
+                <Playlist {...songlist} 
+                            key={songlist.id}
+                            songname={songlist.data().songname}
+                            artist={songlist.data().artist}
+                            album={songlist.data().album}
+                            youtube={songlist.data().youtube}
+                />
                 </div>
                 )
-            })}
+            })): (<p>Add Songs</p>)}
         </div>
             </div>
         
