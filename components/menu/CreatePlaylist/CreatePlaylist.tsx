@@ -2,32 +2,46 @@ import { useState } from "react"
 import Playlist from "./components/Playlist"
 import { db } from "../../../firebase"
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
-import { getDoc, collection, doc, setDoc, getDocs  } from "@firebase/firestore/lite"
+import { getDoc, collection, doc, setDoc, getDocs, addDoc  } from "@firebase/firestore/lite"
 const CreatePlaylist = (): JSX.Element => {
-    //
+  //Base case - what gets it to go and stop when it's met
+  //Random ID created to refrence the session
     const listId = Math.floor(Math.random() * 10000) + 1;
+  //Random ID created to refrence the sessions playlist name
     const nameId = Math.floor(Math.random() * 10000) + 1;
+  //Storage of the session ID in state
     const [currentName, usecurrentName] = useState(listId)
+  //Storage of the playlist ID in state
     const [currentList, usecurrentList] = useState(nameId)
+  //A firebase call used to refrence the firestore collection 
+  //containing the current session's data
     const listref = collection(db, `${currentList}`)
+  //A firebase call used to refrence the firestore collection 
+  //containing the current session's data playlist name data
     const nameref = doc(db, `${currentList}`, `${currentName}`)
+  //Storage of all the data within the current session for display  
     const [currentplaylist, usecurrentplaylist] = useState([])
+  //Storage of the current playlist name for display  
     const [currentname, usecurrentname] = useState([])
+  //A trigger for saving or updating the playlist name  
     const [playList, useplayList] = useState(false)
+  //The state which holds the playlist name's input  
     const [listName, setListName] = useState({
         playlist: ""
     })
+  //The state which holds the playlist's details input   
     const [input, setInput] = useState({
         songname: "",
         artist: "",
         album: "",
         youtube: ""
     })
-    while(listId && nameId === undefined)
-    getDocs(listref).then(data => usecurrentplaylist(data))
-    getDoc(nameref).then(data => usecurrentname(data.data()))
-    if(input.songname.length > 0){
-    const songref = doc(db, `${input.songname}`)}
+  //A call to firestore used to update state to current values  
+    const callFirebase = async () => {
+    const listData = await getDocs(listref)
+    const nameData = await getDoc(nameref)
+    usecurrentplaylist(listData)
+    usecurrentname(nameData)}
     const handleChange = (e) => {
         e.preventDefault()
         const value =  e.target.value
@@ -40,23 +54,25 @@ const CreatePlaylist = (): JSX.Element => {
             [e.target.name]: value
         })
     }
-const saveplaylist = () => {
-    if(currentname && currentplaylist !== undefined){
-    while(setListName(true || false) == true)
-    setDoc(nameref, listName)
-    useplayList(true)}
+const saveplaylist = async () => {
+    useplayList(true)
+    const post = listName
+    await setDoc(nameref, post)
+    callFirebase()
 }
 
-const add = (e) => {
+const add = async (e) => {
+if(input.songname.length > 0){
+const songref = doc(db, `${input.songname}`)
 console.log(input)
 e.preventDefault()
-setDoc(songref, input)
+await setDoc(songref, input)
 setInput({
         songname: "",
         artist: "",
         album: "",
         youtube: ""
-})
+})}
 }
 
     return (
