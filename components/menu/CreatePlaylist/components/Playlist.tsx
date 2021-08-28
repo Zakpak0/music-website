@@ -1,5 +1,3 @@
-const ref = collection(db, '/createplaylist')
-
 const Playlist = ({songname, album, artist}): JSX.Element => {
     return (
             <div className="flex flex-grow justify-between min-w-max flex-row border">

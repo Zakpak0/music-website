@@ -1,9 +1,18 @@
 import { useState } from "react"
 import Playlist from "./components/Playlist"
 import { db } from "../../../firebase"
-import firebase from "firebase"
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
+import { getDoc, collection, doc, setDoc, getDocs  } from "@firebase/firestore/lite"
 const CreatePlaylist = (): JSX.Element => {
+    //
+    const listId = Math.floor(Math.random() * 10000) + 1;
+    const nameId = Math.floor(Math.random() * 10000) + 1;
+    const [currentName, usecurrentName] = useState(listId)
+    const [currentList, usecurrentList] = useState(nameId)
+    const listref = collection(db, `${currentList}`)
+    const nameref = doc(db, `${currentList}`, `${currentName}`)
+    const [currentplaylist, usecurrentplaylist] = useState([])
+    const [currentname, usecurrentname] = useState([])
     const [playList, useplayList] = useState(false)
     const [listName, setListName] = useState({
         playlist: ""
@@ -14,6 +23,11 @@ const CreatePlaylist = (): JSX.Element => {
         album: "",
         youtube: ""
     })
+    while(listId && nameId === undefined)
+    getDocs(listref).then(data => usecurrentplaylist(data))
+    getDoc(nameref).then(data => usecurrentname(data.data()))
+    if(input.songname.length > 0){
+    const songref = doc(db, `${input.songname}`)}
     const handleChange = (e) => {
         e.preventDefault()
         const value =  e.target.value
@@ -26,23 +40,17 @@ const CreatePlaylist = (): JSX.Element => {
             [e.target.name]: value
         })
     }
-const id = Math.floor(Math.random() * 10000) + 1;
-    const [currentplaylist] = useCollection(
-        db.collection(`${id}`)
-    )
 const saveplaylist = () => {
-    if (playList === false)  
-    db.collection(`${id}`).doc(`${id}`)
-    useplayList(true)
+    if(currentname && currentplaylist !== undefined){
+    while(setListName(true || false) == true)
+    setDoc(nameref, listName)
+    useplayList(true)}
 }
-const renameplaylist = () => {
-    if (playList === true)
-    db.collection(`${id}`).doc(`${id}`).set()
-}
-const add = () => {
+
+const add = (e) => {
 console.log(input)
-event.preventDefault()
-db.collection(`${id}`).add(input)
+e.preventDefault()
+setDoc(songref, input)
 setInput({
         songname: "",
         artist: "",
@@ -61,10 +69,10 @@ setInput({
                             {playList === false ? 
                             (<div className="flex flex-row">
                             <input name="playlist" value={listName.playlist} onChange={handleChange} className="text-center my-5 py-2 border" placeholder="Playlist Name" />
-                            <button className="ml-5 border h-5 w-10 pb-7 text-center mt-7" onClick={() => useplayList(true)}>Save</button>
+                            <button className="ml-5 border h-5 w-10 pb-7 text-center mt-7" onClick={() => saveplaylist()}>Save</button>
                             </div>) : 
                             (<div className="flex flex-row">
-                                <h1 className="text-center ml-2 my-5 px-6 py-2">{listName.playlist}</h1>
+                                <h1 className="text-center ml-2 my-5 px-6 py-2">{currentname.data()?.playlist}</h1>
                                 <button className="ml-8 border pb-7 w-6 h-5 mt-7" onClick={() => useplayList(false)}>X</button>
                             </div>)}
                         </div>
@@ -138,7 +146,7 @@ setInput({
             </div>
         </div>
         <div className="my-5 mx-5">
-            {currentplaylist? (currentplaylist?.docs.map((songlist) => {
+            {/* {currentplaylist? (currentplaylist?.docs.map((songlist) => {
                 return ( 
                 <div className="py-3">
                 <Playlist {...songlist} 
@@ -150,7 +158,7 @@ setInput({
                 />
                 </div>
                 )
-            })): (<p>Add Songs</p>)}
+            })): (<p>Add Songs</p>)} */}
         </div>
             </div>
         

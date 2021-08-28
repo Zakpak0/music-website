@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import "firebase/storage"
+import { initializeApp } from "@firebase/app";
+import { getFirestore } from 'firebase/firestore/lite'
 // Import the functions you need from the SDKs you need
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,9 +17,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+const app = initializeApp(firebaseConfig)
 
-const db = app.firestore()
+const db = getFirestore()
 
 
 
