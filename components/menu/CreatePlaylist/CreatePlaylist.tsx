@@ -173,12 +173,12 @@ setRenderList(true)
                 </div>
             </div>
                     <div className="flex justify-center">
-                            <button key={"Enter"} onClick={() => add() } className="py-4 px-12 border">Add</button>
+                            <button key={"Enter"} onClick={() => add() } onKeyPress={(e) => add(String(e.key))} className="py-4 px-12 border">Add</button>
                     </div>
         </div>
             <div className="flex flex-col my-5 justify-center pr-5">
-                {/* {listName.playlist != "" ? <div className="flex justify-center py-5 border">
-                    <h1>{listName.playlist}</h1>
+                {/* {currentname.playlist != "" ? <div className="flex justify-center py-5 border">
+                    <h1>{currentname.playlist}</h1>
                 </div> : null } */}
         <div className="flex border px-16 flex-grow min-w-max">
             <div className="flex flex-grow justify-between min-w-max flex-row">
