@@ -7,13 +7,13 @@ import { getFirestore } from 'firebase/firestore/lite'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC2yf1YVVW0N_GxlCNFPjC4TG-egPF-7hw",
-  authDomain: "the-playlist-music-website.firebaseapp.com",
-  databaseURL: "https://the-playlist-music-website-default-rtdb.firebaseio.com",
-  projectId: "the-playlist-music-website",
-  storageBucket: "the-playlist-music-website.appspot.com",
-  messagingSenderId: "1008321328374",
-  appId: "1:1008321328374:web:9feef5d2be962d87fa28d7"
+  apiKey: "AIzaSyAhsXx15JtAegWUoiEVOAjLMVxZrngbuEg",
+  authDomain: "the-music-app-2.firebaseapp.com",
+  projectId: "the-music-app-2",
+  storageBucket: "the-music-app-2.appspot.com",
+  messagingSenderId: "709489928479",
+  appId: "1:709489928479:web:019f120ed138e99d45e82a",
+  measurementId: "G-C6DXTQ3WFE"
 };
 
 // Initialize Firebase
