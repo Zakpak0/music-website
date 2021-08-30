@@ -1,3 +1,4 @@
+import Link from "next/link"
 const signin = (): JSX.Element => {
     return (
             <div className="flex mx-10 flex-col flex-grow">
@@ -29,12 +30,12 @@ const signin = (): JSX.Element => {
                                 <div className="border mx-14 w-40">
                                         <button className="border text-center w-40 py-3">Log In</button>
                                 </div>
-                                <div className="flex flex-row px-8 pt-5 -mb-5 text-xs underline" >
+                                <div className="flex flex-row justify-center px-8 pt-5 -mb-5 text-xs underline" >
                                     <div>
-                                        <p>Forgot Password</p>
+                                        <Link href="/forgotpassword">Forgot Password</Link>
                                     </div>
                                     <div className="pl-3">
-                                        <p>Create An Account</p>
+                                        <Link href="/signup">Create An Account</Link>
                                     </div>
                                 </div>
                             </div>
