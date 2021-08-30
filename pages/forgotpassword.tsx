@@ -5,7 +5,7 @@ const forgotpassword = () => {
         <div className="flex mx-10 flex-col flex-grow border">
     <div className="border w-full h-full">
         <div className="flex border h-full justify-center lg:py-8">
-            <div className="flex border w-5/12 flex-col justify-center text-center">
+            <div className="flex border lg:w-5/12 flex-col justify-center text-center">
                 <h1>Forgot Password</h1>
                         <div className="border w-full lg:h-100 p-5 lg:mt-2">
                             <div className="lg:pt-10">
