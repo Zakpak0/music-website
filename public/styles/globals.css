@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    .body{
+        height: 100vh;
+    }
+    .music-container{
+        margin: 100px 0;
+        padding: 20px 30px;
+    }
+    .image-container{
+        position: relative;
+        width: 120px;
+    }
+    .imagepause {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        animation: rotate 15s linear infinite;
+
+        animation-play-state: paused;
+    }
+        .imageplay {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        animation: rotate 15s linear infinite;
+
+        animation-play-state: running;
+    }
+    
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .button {
+        margin: 0 20px;
+        height: 1.25rem;
+        width: 1.25rem;
+        font-size: 20px;
+        @apply 
+        bg-white border-0 
+        text-gray-500 
+        cursor-pointer;
+    }
+
+    .button-big {
+                margin: 0 20px;
+        height: 2.00rem;
+        width: 2.00rem;
+        font-size: 30px;
+        @apply 
+        bg-white border-0 
+        text-gray-600 
+        cursor-pointer;
+    }
+    .music-info {
+        border-radius: 15px 15px 0 0;
+        position: absolute;
+        top: 0;
+        left: 20;
+        width: calc(100% - 60px);
+        opacity: 0;
+        transform: translateY(0%);
+        transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+        padding: 10px 10px 10px 135px;
+        height: 80%;
+        @apply bg-gray-50;
+    }
+    .music-container-play{
+        opacity: 1;
+        transform: translateY(-100%);
+    }
+    .progress-container{
+        background: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 0;
+        height: 4px;
+        width: 100%;
+    }
+    .progress{
+        border-radius: 5px;
+        height: 100%;
+        width: 0%;
+        transition: width 0.1s linear;
+    }
+}

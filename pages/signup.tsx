@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { useState } from "react"
+import {authsignup} from '../services/auth'
+import { useRouter } from 'next/router'
 
 const signup = () => {
+    const router = useRouter()
     const [input, setInput] = useState({
         firstName: "",
         lastName: "",
@@ -10,14 +13,12 @@ const signup = () => {
         password: "",
         confirmpassword: ""
     })
-    const [fieldvalues, setFieldValues] = useState({
-        firstName: null,
-        lastName: null,
-        userName: null,
-        email: null,
-        password: null,
-        confirmpassword: null}
-    )
+    const [firstName, useFirstName] = useState(null)
+    const [lastName, useLastName] = useState(null)
+    const [userName, useUserName] = useState(null)
+    const [email, useEmail] = useState(null)
+    const [password, usePassword] = useState(null)
+    const [confirmpassword, useConfirmPassword] = useState(null)
     const [showPassword, setShowPassword] = useState(false)
     const handler = (e) => {
         e.preventDefault()
@@ -26,66 +27,6 @@ const signup = () => {
             ...input,
             [e.target.name]: value
         })
-        if(value === ""){
-        setFieldValues({
-            ...input,
-            [e.target.name]: `is Required`
-        })}
-        console.log(fieldvalues)  
-    }
-        // if(request.firstName.length < 1){
-        //         setFieldValues({
-        //             firstName: 'First Name is required'});}
-        // if(request.userName.length < 1){
-        //         setFieldValues({
-        //             userName: 'User Name is required'});}
-        // if(request.email.length < 1){
-        //         setFieldValues({
-        //             email: 'Email is required'});}
-        // if(request.password.length < 1){
-        //         setFieldValues({
-        //             password: 'Password is required'});}
-        // if(request.confirmpassword.length < 1){
-        //         setFieldValues({
-        //             confirmpassword: 'Please confirm your password'});}
-    const signup = () => {
-        if( input.firstName.length < 1
-            ||
-            input.lastName.length < 1
-            ||
-            input.userName.length < 1
-            ||
-            input.email.length < 1
-            ||
-            input.password.length < 1
-            ||
-            input.confirmpassword.length < 1){
-            setFieldValues({
-            firstName: "Required",
-            lastName: "Required",
-            userName: "Required",
-            email: "Required",
-            password: "Required",
-            confirmpassword: "Required"
-            })}else{
-            setFieldValues({
-            firstName: null,
-            lastName: null,
-            userName: null,
-            email: null,
-            password: null,
-            confirmpassword: null
-                })
-        setInput({
-        firstName: "",
-        lastName: "",
-        userName: "",
-        email: "",
-        password: "",
-        confirmpassword: ""
-    })
-console.log(input)
-}
     }
     return (
         <div className="flex mx-10 flex-col flex-grow border">
@@ -103,7 +44,7 @@ console.log(input)
                                 </div>
                                 <div className="p-3">
                                     <input name="firstName" value={input.firstName} onChange={handler} className="border text-center py-3" placeholder={"First Name"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.firstName ? "First Name is Required" : null}</p>
+                                    <p className=" text-red-600 text-xs">{firstName ? firstName : null}</p>
                                 </div>
                             </div>
                             <div className="pt-10 flex-col items-center flex-grow flex">
@@ -114,7 +55,7 @@ console.log(input)
                                 </div>
                                 <div className="py-3">
                                     <input name="lastName" value={input.lastName} onChange={handler} className="border text-center py-3" placeholder={"Last Name"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.lastName ? "Last Name " + fieldvalues.lastName : null}</p>
+                                    <p className=" text-red-600 text-xs">{lastName ? lastName : null}</p>
                                 </div>
                             </div>
                             </div>
@@ -127,7 +68,7 @@ console.log(input)
                                 </div>
                                 <div className="p-3">
                                     <input name="userName" value={input.userName} onChange={handler} className="border text-center py-3" placeholder={"User Name"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.userName ? "User Name " + fieldvalues.userName : null}</p>
+                                    <p className=" text-red-600 text-xs">{userName ? userName : null}</p>
                                 </div>
                             </div>
                             <div className="pt-10 flex-col items-center flex-grow flex">
@@ -138,7 +79,7 @@ console.log(input)
                                 </div>
                                 <div className="py-3">
                                     <input name="email" value={input.email} onChange={handler} className="border text-center py-3" placeholder={"E-mail"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.email ? "Email Name " + fieldvalues.email : null}</p>
+                                    <p className=" text-red-600 text-xs">{email ? email : null}</p>
                                 </div>
                             </div>
                             </div>
@@ -152,8 +93,8 @@ console.log(input)
                                 <div className="p-3">
                                     <div className="flex flex-row">
                                     <div className="flex flex-col">
-                                    <input name="password" type={showPassword === true? "text" : "password"} value={input.password} onChange={handler} className="border text-red-600 text-center py-3" placeholder={"Password"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.password ? "Password " + fieldvalues.password : null}</p>
+                                    <input name="password" type={showPassword === true? "text" : "password"} value={input.password} onChange={handler} className="border text-center py-3" placeholder={"Password"}/>
+                                    <p className=" text-red-600 text-xs">{password ? password : null}</p>
                                     </div>
                                     <button className="text-4xl" onClick={() => setShowPassword(!showPassword)}>*</button>
                                     </div>
@@ -169,7 +110,7 @@ console.log(input)
                                     <div className="flex flex-row">
                                     <div className="flex flex-col">
                                     <input type={showPassword === true? "text" : "password"} name="confirmpassword" value={input.confirmpassword} onChange={handler} className="border text-center py-3" placeholder={"Confirm Password"}/>
-                                    <p className=" text-red-600 text-xs">{fieldvalues.confirmpassword ? "Please re-enter Your Password" : null}</p>
+                                    <p className=" text-red-600 text-xs">{confirmpassword ? confirmpassword : null}</p>
                                     </div>
                                     <button className="text-4xl" onClick={() => setShowPassword(!showPassword)}>*</button>
                                     </div>
@@ -177,7 +118,32 @@ console.log(input)
                             </div>
                             </div>
                             <div className="flex flex-grow w-full border justify-center">
-                                    <button onClick={(e) => signup(e)} className="border text-center w-40 py-3">Sign up</button>
+                                    <button
+                                    firstName={input.firstName}
+                                    lastName={input.lastName} 
+                                    userName={input.userName} 
+                                    email={input.email}
+                                    password={input.password}
+                                    confirmpassword={input.confirmpassword}
+                                    useFirstName={useFirstName} 
+                                    useLastName={useLastName} 
+                                    useUserName={useUserName} 
+                                    useEmail={useEmail} 
+                                    usePassword={usePassword} 
+                                    useConfirmPassword={useConfirmPassword}
+                                    setInput={setInput}
+                                    router={router}
+                                    onClick={() => authsignup(
+                                        input, 
+                                        useFirstName,
+                                        useLastName,
+                                        useUserName,
+                                        useEmail,
+                                        usePassword,
+                                        useConfirmPassword,
+                                        setInput,
+                                        router
+                                    )} className="border text-center w-40 py-3">Sign up</button>
                             </div>
                             <div className="flex flex-row justify-center px-8 pt-5 -mb-5 text-xs underline" >
                                 <div>

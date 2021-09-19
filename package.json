@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.4",
     "@reduxjs/toolkit": "^1.6.1",
     "babel-eslint": "^10.1.0",
     "firebase": "^9.0.0",
