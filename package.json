@@ -10,6 +10,7 @@
     "@reduxjs/toolkit": "^1.6.1",
     "apollo-datasource": "^3.2.0",
     "apollo-datasource-rest": "^3.3.0",
+    "apollo-server": "^3.4.0",
     "babel-eslint": "^10.1.0",
     "firebase": "^9.0.0",
     "next": "latest",
