@@ -1,7 +1,6 @@
 import { useState } from "react"
 import Playlist from "./components/Playlist"
 import { db } from "../../../firebase"
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
 import { getDoc, collection, doc, setDoc, getDocs, addDoc, deleteDoc   } from "@firebase/firestore/lite"
 import { useEffect } from "react"
 const CreatePlaylist = (): JSX.Element => {
